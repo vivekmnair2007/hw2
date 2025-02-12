@@ -86,6 +86,44 @@ Rails.logger.info "------------------------"
 # Generate models and tables, according to the domain model.
 # TODO!
 
+# class CreateStudios < ActiveRecord::Migration[7.1]
+#     def change
+#       create_table :studios do |t|
+#         t.string "name"
+#         t.timestamps
+#       end
+#     end
+#   end
+# class CreateMovies < ActiveRecord::Migration[7.1]
+#   def change
+#     create_table :movies do |t|
+#       t.string "title"
+#       t.integer "year_released"
+#       t.string "rated"
+#       t.integer "studio_id"
+#       t.timestamps
+#     end
+#   end
+# end
+# class CreateActors < ActiveRecord::Migration[7.1]
+#   def change
+#     create_table :actors do |t|
+#       t.string "name"
+#       t.timestamps
+#     end
+#   end
+# end
+# class CreateRoles < ActiveRecord::Migration[7.1]
+#   def change
+#     create_table :roles do |t|
+#       t.integer "movie_id"
+#       t.string "character_name"
+#       t.integer "actor_id"
+#       t.timestamps
+#     end
+#   end
+# end
+
 # Insert data into the database that reflects the sample data shown above.
 # Do not use hard-coded foreign key IDs.
 
@@ -119,7 +157,7 @@ for actor in actors do
     new_actor = Actor.new
     new_actor["name"] = actor
     new_actor.save
-end
+end ## Used loops to avoid repetitive code
 
 roles = [
   { movie: "Batman Begins", actor: "Christian Bale", role: "Bruce Wayne" },
@@ -145,7 +183,7 @@ for rol in roles do
     new_role["actor_id"] = Actor.find_by({"name" => rol[:actor]}).id
     new_role["movie_id"] = Movie.find_by({"title" => rol[:movie]}).id
     new_role.save
-end
+end ## Used loops to avoid repetitive code
 
 # Prints a header for the movies output
 puts "Movies"
@@ -156,7 +194,7 @@ puts ""
 
 for mov in Movie.all do
     puts mov.title.ljust(25) + mov.year_released.to_s.ljust(10) + mov.rated.ljust(10) + Studio.find_by({"id" => mov.studio_id}).name
-end
+end ## Used ljust to adjust column width
 
 # Prints a header for the cast output
 puts ""
@@ -168,4 +206,4 @@ puts ""
 # Query the cast data and loop through the results to display the cast output for each movie.
 for cast in Role.all do
     puts Movie.find_by({"id" => cast.movie_id}).title.ljust(25) + Actor.find_by({"id" => cast.actor_id}).name.ljust(25) + cast.character_name
-end
+end ## Used ljust to adjust column width
